@@ -8,18 +8,16 @@ var React = require('react'),
     KPIActions = require('./actions/KPI-actions'),
     StoreActions = require('./actions/store-actions'),
     GroupActions = require('./actions/group-actions'),
+    AccountLoginStore = require('./stores/AccountLoginStore'),
     ExampleApp;
 
 
-
-
 ExampleApp = React.createClass({
-    componentDidMount:function(){
+    componentDidMount: function () {
 
-        var that=this;
+        var that = this;
 
-        // 內部
-        // var resources = {
+        //var resources = {
         //    'en-US': {
         //        translation: {
         //            'myString': 'Hello, World!' ,
@@ -48,32 +46,63 @@ ExampleApp = React.createClass({
         //    resStore: resources
         //});
 
-        // 外部載入
 
         i18n.init({
             lng: 'en',
-            preload: ['en']
-        },function(t){
+            supportedLngs: ['en', 'cn', 'tw'],
+            preload: ['en', 'cn','tw']
+        }, function (t) {
             console.log(t('app.name'));
             $(that.refs.nav.getDOMNode()).i18n();
 
         });
 
-
+        i18n.init({lng: 'cn'});
 
     },
+    switchEn: function (that) {
+        var that = that;
+        i18n.setLng('en', function (t) {
+            $(that.refs.nav.getDOMNode()).i18n();
+        });
+        console.log('switchEn');
 
+    },
+    switchTW: function (that) {
+        var that = that;
+        i18n.setLng('tw', function (t) {
+            $(that.refs.nav.getDOMNode()).i18n();
+        });
+        console.log('switchTW');
+    },
+    switchCn: function (that) {
+        i18n.setLng('cn', function (t) {
+            $(that.refs.nav.getDOMNode()).i18n();
+        });
+        console.log('switchCn');
+    },
     render: function () {
         return (
             /*jshint ignore:start */
             <div>
                 <h2>Hello, World</h2>
-                <ul class="nav" ref="nav">
-                    <li><a href="#" data-i18n="nav.home"></a></li>
-                    <li><a href="#" data-i18n="nav.page1"></a></li>
-                    <li><a href="#" data-i18n="nav.page2"></a></li>
+                <ul className="nav" ref="nav">
+                    <li>
+                        <a href="#" data-i18n="nav.home"></a>
+                    </li>
+                    <li>
+                        <a href="#" data-i18n="nav.page1"></a>
+                    </li>
+                    <li>
+                        <a href="#" data-i18n="nav.page2"></a>
+                    </li>
                 </ul>
-                <button onclick={}></button>
+                <div className="btn-group" role="group">
+                    <button type="button" className="btn btn-default" onClick={this.switchEn.bind(null, this)}>英文</button>
+                    <button type="button" className="btn btn-default" onClick={this.switchCn.bind(null, this)}>簡中</button>
+                    <button type="button" className="btn btn-default" onClick={this.switchTW.bind(null, this)}>繁中</button>
+                </div>
+
             </div>
             /*jshint ignore:end */
         );

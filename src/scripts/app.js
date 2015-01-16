@@ -19715,63 +19715,101 @@ var React = require('react'),
     KPIActions = require('./actions/KPI-actions'),
     StoreActions = require('./actions/store-actions'),
     GroupActions = require('./actions/group-actions'),
+    AccountLoginStore = require('./stores/AccountLoginStore'),
     ExampleApp;
 
 
-
-
 ExampleApp = React.createClass({displayName: "ExampleApp",
-    componentDidMount:function(){
+    componentDidMount: function () {
 
+        var that = this;
 
-        var that=this;
+        //var resources = {
+        //    'en-US': {
+        //        translation: {
+        //            'myString': 'Hello, World!' ,
+        //            "nav": {
+        //                "home": "Home",
+        //                "page1": "Page One",
+        //                "page2": "Page Two"
+        //            }
+        //    } },
+        //    'fr-FR': {
+        //        translation: {
+        //            'myString': 'Bonjour tout le monde!',
+        //            'anotherString': 'Bonjour!',
+        //            "nav": {
+        //                "home": "Home v111",
+        //                "page1": "Page One  222",
+        //                "page2": "Page Two"
+        //            }
+        //        }
+        //    }
+        //};
 
-        var resources = {
-            'en-US': {
-                translation: {
-                    'myString': 'Hello, World!' ,
-                    "nav": {
-                        "home": "Home",
-                        "page1": "Page One",
-                        "page2": "Page Two"
-                    }
-            } },
-            'fr-FR': {
-                translation: {
-                    'myString': 'Bonjour tout le monde!',
-                    'anotherString': 'Bonjour!'
-                }
-            }
-        };
+        //i18n.init({
+        //    lng: 'fr-FR',
+        //    fallbackLng: 'en-US',
+        //    resStore: resources
+        //});
+
 
         i18n.init({
-            lng: 'fr-FR',
-            fallbackLng: 'en-US',
-            resStore: resources
+            lng: 'en',
+            supportedLngs: ['en', 'cn', 'tw'],
+            preload: ['en', 'cn','tw']
+        }, function (t) {
+            console.log(t('app.name'));
+            $(that.refs.nav.getDOMNode()).i18n();
+
         });
 
-        $(that.refs.nav.getDOMNode()).i18n();
+        i18n.init({lng: 'cn'});
 
-        console.log(i18n.t('myString'));
+    },
+    switchEn: function (that) {
+        var that = that;
+        i18n.setLng('en', function (t) {
+            $(that.refs.nav.getDOMNode()).i18n();
+        });
+        console.log('switchEn');
 
-
-
-
-
-
-
-
+    },
+    switchTW: function (that) {
+        var that = that;
+        i18n.setLng('tw', function (t) {
+            $(that.refs.nav.getDOMNode()).i18n();
+        });
+        console.log('switchTW');
+    },
+    switchCn: function (that) {
+        i18n.setLng('cn', function (t) {
+            $(that.refs.nav.getDOMNode()).i18n();
+        });
+        console.log('switchCn');
     },
     render: function () {
         return (
             /*jshint ignore:start */
             React.createElement("div", null, 
                 React.createElement("h2", null, "Hello, World"), 
-                React.createElement("ul", {class: "nav", ref: "nav"}, 
-                    React.createElement("li", null, React.createElement("a", {href: "#", "data-i18n": "nav.home"})), 
-                    React.createElement("li", null, React.createElement("a", {href: "#", "data-i18n": "nav.page1"})), 
-                    React.createElement("li", null, React.createElement("a", {href: "#", "data-i18n": "nav.page2"}))
+                React.createElement("ul", {className: "nav", ref: "nav"}, 
+                    React.createElement("li", null, 
+                        React.createElement("a", {href: "#", "data-i18n": "nav.home"})
+                    ), 
+                    React.createElement("li", null, 
+                        React.createElement("a", {href: "#", "data-i18n": "nav.page1"})
+                    ), 
+                    React.createElement("li", null, 
+                        React.createElement("a", {href: "#", "data-i18n": "nav.page2"})
+                    )
+                ), 
+                React.createElement("div", {className: "btn-group", role: "group"}, 
+                    React.createElement("button", {type: "button", className: "btn btn-default", onClick: this.switchEn.bind(null, this)}, "英文"), 
+                    React.createElement("button", {type: "button", className: "btn btn-default", onClick: this.switchCn.bind(null, this)}, "簡中"), 
+                    React.createElement("button", {type: "button", className: "btn btn-default", onClick: this.switchTW.bind(null, this)}, "繁中")
                 )
+
             )
             /*jshint ignore:end */
         );
@@ -19785,10 +19823,11 @@ React.render(
     document.getElementById('app')
 );
 
-},{"./actions/KPI-actions":167,"./actions/account-actions":168,"./actions/group-actions":169,"./actions/overview-actions":170,"./actions/store-actions":171,"react":"nakDgH"}],173:[function(require,module,exports){
+},{"./actions/KPI-actions":167,"./actions/account-actions":168,"./actions/group-actions":169,"./actions/overview-actions":170,"./actions/store-actions":171,"./stores/AccountLoginStore":174,"react":"nakDgH"}],173:[function(require,module,exports){
 /**
  * Created by apple on 15/1/13.
  */
+'use strict';
 
 var APIAccountLogin;
 
@@ -19812,4 +19851,22 @@ APIAccountLogin = {
 
 module.exports = APIAccountLogin;
 
-},{}]},{},[172])
+},{}],174:[function(require,module,exports){
+/**
+ * Created by apple on 15/1/14.
+ */
+'use strict';
+
+
+var Reflux = require('reflux'),
+    AccountLoginStore;
+
+AccountLoginStore = Reflux.createStore({
+    init: function () {
+        var that = this;
+        that.data={};
+
+    }
+});
+
+},{"reflux":149}]},{},[172])
