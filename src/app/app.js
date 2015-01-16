@@ -16,36 +16,46 @@ var React = require('react'),
 ExampleApp = React.createClass({
     componentDidMount:function(){
 
+        // 內部
+        // var resources = {
+        //    'en-US': {
+        //        translation: {
+        //            'myString': 'Hello, World!' ,
+        //            "nav": {
+        //                "home": "Home",
+        //                "page1": "Page One",
+        //                "page2": "Page Two"
+        //            }
+        //    } },
+        //    'fr-FR': {
+        //        translation: {
+        //            'myString': 'Bonjour tout le monde!',
+        //            'anotherString': 'Bonjour!',
+        //            "nav": {
+        //                "home": "Home v111",
+        //                "page1": "Page One  222",
+        //                "page2": "Page Two"
+        //            }
+        //        }
+        //    }
+        //};
 
-        var that=this;
+        //i18n.init({
+        //    lng: 'fr-FR',
+        //    fallbackLng: 'en-US',
+        //    resStore: resources
+        //});
 
-        var resources = {
-            'en-US': {
-                translation: {
-                    'myString': 'Hello, World!' ,
-                    "nav": {
-                        "home": "Home",
-                        "page1": "Page One",
-                        "page2": "Page Two"
-                    }
-            } },
-            'fr-FR': {
-                translation: {
-                    'myString': 'Bonjour tout le monde!',
-                    'anotherString': 'Bonjour!'
-                }
-            }
-        };
+        // 外部載入
 
         i18n.init({
-            lng: 'fr-FR',
-            fallbackLng: 'en-US',
-            resStore: resources
+            lng: 'en',
+            preload: ['en']
+        },function(t){
+            console.log(t('app.name'));
+            $(that.refs.nav.getDOMNode()).i18n();
+
         });
-
-        $(that.refs.nav.getDOMNode()).i18n();
-
-        console.log(i18n.t('myString'));
 
 
 
