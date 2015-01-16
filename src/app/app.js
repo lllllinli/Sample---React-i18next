@@ -16,6 +16,8 @@ var React = require('react'),
 ExampleApp = React.createClass({
     componentDidMount:function(){
 
+        var that=this;
+
         // 內部
         // var resources = {
         //    'en-US': {
@@ -59,12 +61,8 @@ ExampleApp = React.createClass({
 
 
 
-
-
-
-
-
     },
+
     render: function () {
         return (
             /*jshint ignore:start */
@@ -75,6 +73,7 @@ ExampleApp = React.createClass({
                     <li><a href="#" data-i18n="nav.page1"></a></li>
                     <li><a href="#" data-i18n="nav.page2"></a></li>
                 </ul>
+                <button onclick={}></button>
             </div>
             /*jshint ignore:end */
         );
